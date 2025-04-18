@@ -1,0 +1,581 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scrub & Study | Medical Education</title>
+    <style>
+        :root {
+            --pastel-blue: #a2d2ff;
+            --pastel-pink: #ffb7ce;
+            --pastel-green: #b5ead7;
+            --pastel-purple: #cdb4db;
+            --pastel-yellow: #ffdfba;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: white;
+            margin: 0;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+        
+        header {
+            background: linear-gradient(135deg, var(--pastel-blue), var(--pastel-pink));
+            color: white;
+            padding: 1rem;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+        
+        .logo-icon {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            font-size: 24px;
+            color: var(--pastel-pink);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin: 0.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .tagline {
+            font-style: italic;
+            margin-top: 0;
+        }
+        
+        nav {
+            display: flex;
+            justify-content: center;
+            background: white;
+            padding: 1rem;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        
+        nav a {
+            margin: 0 1rem;
+            color: #555;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--pastel-purple);
+        }
+        
+        .subject-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            padding: 2rem;
+        }
+        
+        .subject-card {
+            background: white;
+            border-radius: 10px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+            transition: transform 0.3s;
+            border-top: 4px solid var(--pastel-green);
+        }
+        
+        .subject-card:hover {
+            transform: translateY(-5px);
+        }
+        
+        .bubble {
+            position: absolute;
+            background: rgba(255,255,255,0.7);
+            border-radius: 50%;
+            animation: float 5s infinite ease-in-out;
+            z-index: 1;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(10deg); }
+        }
+        
+        footer {
+            background: #f8f9fa;
+            text-align: center;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+        
+        /* Quiz Styles */
+        .quiz-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .quiz-question {
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .quiz-options {
+            display: grid;
+            gap: 0.8rem;
+        }
+        
+        .quiz-option {
+            padding: 0.8rem;
+            background: #f8f9fa;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .quiz-option:hover {
+            background: #e9ecef;
+        }
+        
+        .quiz-option.selected {
+            background: var(--pastel-blue);
+            color: white;
+        }
+        
+        .quiz-option.correct {
+            background: var(--pastel-green);
+            color: white;
+        }
+        
+        .quiz-option.incorrect {
+            background: var(--pastel-pink);
+            color: white;
+        }
+        
+        .quiz-nav {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 2rem;
+        }
+        
+        .quiz-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--pastel-purple);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        /* Diagram Styles */
+        .diagram-container {
+            max-width: 600px;
+            margin: 2rem auto;
+            text-align: center;
+        }
+        
+        .diagram {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        
+        /* Contact Form */
+        .contact-form {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.05);
+        }
+        
+        .form-group {
+            margin-bottom: 1rem;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 0.8rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-family: inherit;
+        }
+        
+        textarea.form-control {
+            min-height: 100px;
+            resize: vertical;
+        }
+        
+        .submit-btn {
+            background: var(--pastel-purple);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            display: block;
+            margin: 1rem auto 0;
+            transition: background 0.3s;
+        }
+        
+        .submit-btn:hover {
+            background: #b399c8;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        #form-success {
+            text-align: center;
+            color: var(--pastel-green);
+            font-weight: bold;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div id="bubbles-container"></div>
+        <div class="logo">
+            <div class="logo-icon">💧</div>
+            <h1>Scrub & Study</h1>
+        </div>
+        <p class="tagline">Medical Mastery Through Bubbles & Books</p>
+    </header>
+    
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#subjects">Subjects</a>
+        <a href="#quiz">MCQ Quiz</a>
+        <a href="#diagrams">Diagrams</a>
+        <a href="#contact">Contact</a>
+    </nav>
+    
+    <section id="home" style="padding: 2rem; text-align: center;">
+        <h2>Welcome Future Doctors!</h2>
+        <p>Access high-yield medical resources with a splash of fun. Bubbles make everything better!</p>
+    </section>
+    
+    <section id="subjects">
+        <h2 style="text-align: center; margin-top: 2rem;">Study Subjects</h2>
+        <div class="subject-grid">
+            <div class="subject-card">
+                <h3>Anatomy</h3>
+                <p>Interactive diagrams, mnemonics, and dissection guides.</p>
+                <button class="quiz-button" style="margin-top: 1rem; width: 100%;" onclick="location.href='#quiz'">Practice Questions</button>
+            </div>
+            <div class="subject-card">
+                <h3>Physiology</h3>
+                <p>Concept maps and mechanism breakdowns.</p>
+                <button class="quiz-button" style="margin-top: 1rem; width: 100%;" onclick="location.href='#quiz'">Practice Questions</button>
+            </div>
+            <div class="subject-card">
+                <h3>Pharmacology</h3>
+                <p>Drug cards, MOA animations, and treatment algorithms.</p>
+                <button class="quiz-button" style="margin-top: 1rem; width: 100%;" onclick="location.href='#quiz'">Practice Questions</button>
+            </div>
+            <div class="subject-card">
+                <h3>Pathology</h3>
+                <p>Case studies, histopathology images, and disease pathways.</p>
+                <button class="quiz-button" style="margin-top: 1rem; width: 100%;" onclick="location.href='#quiz'">Practice Questions</button>
+            </div>
+        </div>
+    </section>
+    
+    <section id="quiz" style="background: #f8f9fa; padding: 2rem 0;">
+        <div class="quiz-container">
+            <h2 style="text-align: center;">Medical MCQ Quiz</h2>
+            <div id="quiz-progress" style="text-align: center; margin-bottom: 1rem;">Question 1 of 5</div>
+            
+            <div id="question-1" class="quiz-question">
+                <h3>Which of the following is the primary neurotransmitter at the neuromuscular junction?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectAnswer(this, 1, 'a')">A) Dopamine</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 1, 'b')">B) Acetylcholine</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 1, 'c')">C) Serotonin</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 1, 'd')">D) Norepinephrine</div>
+                </div>
+            </div>
+            
+            <div id="question-2" class="quiz-question hidden">
+                <h3>The hepatic portal vein carries blood from the _____ to the _____.</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectAnswer(this, 2, 'a')">A) Liver; heart</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 2, 'b')">B) Gastrointestinal tract; liver</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 2, 'c')">C) Heart; liver</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 2, 'd')">D) Liver; kidneys</div>
+                </div>
+            </div>
+            
+            <div id="question-3" class="quiz-question hidden">
+                <h3>Which class of drugs is commonly used as first-line treatment for hypertension and works by blocking angiotensin II receptors?</h3>
+                <div class="quiz-options">
+                    <div class="quiz-option" onclick="selectAnswer(this, 3, 'a')">A) Beta blockers</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 3, 'b')">B) ARBs (Angiotensin Receptor Blockers)</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 3, 'c')">C) Calcium channel blockers</div>
+                    <div class="quiz-option" onclick="selectAnswer(this, 3, 'd')">D) Diuretics</div>
+                </div>
+            </div>
+            
+            <div class="quiz-nav">
+                <button class="quiz-button" id="prev-btn" onclick="prevQuestion()" disabled>Previous</button>
+                <button class="quiz-button" id="next-btn" onclick="nextQuestion()">Next</button>
+            </div>
+        </div>
+    </section>
+    
+    <section id="diagrams" style="padding: 2rem;">
+        <h2 style="text-align: center;">Medical Diagrams</h2>
+        
+        <div class="diagram-container">
+            <h3>Heart Anatomy</h3>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8e/Diagram_of_the_human_heart_%28cropped%29.svg/1200px-Diagram_of_the_human_heart_%28cropped%29.svg.png" alt="Heart Anatomy" class="diagram" style="max-height: 400px;">
+            <p>Fig 1. Cross-section of human heart showing chambers and valves</p>
+        </div>
+        
+        <div class="diagram-container">
+            <h3>Nephron Structure</h3>
+            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0d/Nephron_illustration.svg/1200px-Nephron_illustration.svg.png" alt="Nephron Diagram" class="diagram" style="max-height: 400px;">
+            <p>Fig 2. Structure of a nephron, the functional unit of the kidney</p>
+        </div>
+    </section>
+    
+    <section id="contact" style="padding: 2rem; background: #f8f9fa;">
+        <div class="contact-form">
+            <h2 style="text-align: center;">Request Tutoring</h2>
+            <form id="tutoring-form">
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" class="form-control" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="subject">Subject Needing Help With</label>
+                    <select id="subject" class="form-control" required>
+                        <option value="">Select a subject</option>
+                        <option value="anatomy">Anatomy</option>
+                        <option value="physiology">Physiology</option>
+                        <option value="pharmacology">Pharmacology</option>
+                        <option value="pathology">Pathology</option>
+                        <option value="other">Other</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message">Additional Details</label>
+                    <textarea id="message" class="form-control"></textarea>
+                </div>
+                
+                <button type="submit" class="submit-btn">Submit Request</button>
+                <div id="form-success" class="hidden">Thank you! Your request has been submitted.</div>
+            </form>
+        </div>
+    </section>
+    
+    <footer>
+        <p>© 2023 Scrub & Study | Made with ❤️ for medical students</p>
+    </footer>
+
+    <script>
+        // Create bubbles
+        function createBubbles() {
+            const header = document.querySelector('header');
+            const bubblesContainer = document.getElementById('bubbles-container');
+            
+            for (let i = 0; i < 15; i++) {
+                const bubble = document.createElement('div');
+                bubble.classList.add('bubble');
+                
+                // Random properties
+                const size = Math.random() * 30 + 10;
+                const posX = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 5;
+                
+                bubble.style.width = `${size}px`;
+                bubble.style.height = `${size}px`;
+                bubble.style.left = `${posX}%`;
+                bubble.style.top = `${Math.random() * 100}%`;
+                bubble.style.animationDelay = `${delay}s`;
+                bubble.style.animationDuration = `${duration}s`;
+                bubble.style.opacity = Math.random() * 0.5 + 0.3;
+                
+                bubblesContainer.appendChild(bubble);
+            }
+        }
+        
+        // Quiz functionality
+        let currentQuestion = 1;
+        const totalQuestions = 3;
+        const correctAnswers = {
+            1: 'b',
+            2: 'b',
+            3: 'b'
+        };
+        const userAnswers = {};
+        
+        function selectAnswer(element, questionNum, answer) {
+            // Remove selected class from all options in this question
+            const options = element.parentElement.children;
+            for (let option of options) {
+                option.classList.remove('selected');
+            }
+            
+            // Add selected class to clicked option
+            element.classList.add('selected');
+            
+            // Store user's answer
+            userAnswers[questionNum] = answer;
+        }
+        
+        function nextQuestion() {
+            if (currentQuestion < totalQuestions) {
+                document.getElementById(`question-${currentQuestion}`).classList.add('hidden');
+                currentQuestion++;
+                document.getElementById(`question-${currentQuestion}`).classList.remove('hidden');
+                document.getElementById('quiz-progress').textContent = `Question ${currentQuestion} of ${totalQuestions}`;
+                
+                // Update button states
+                document.getElementById('prev-btn').disabled = false;
+                if (currentQuestion === totalQuestions) {
+                    document.getElementById('next-btn').textContent = 'Submit';
+                }
+            } else {
+                // Submit quiz
+                gradeQuiz();
+            }
+        }
+        
+        function prevQuestion() {
+            if (currentQuestion > 1) {
+                document.getElementById(`question-${currentQuestion}`).classList.add('hidden');
+                currentQuestion--;
+                document.getElementById(`question-${currentQuestion}`).classList.remove('hidden');
+                document.getElementById('quiz-progress').textContent = `Question ${currentQuestion} of ${totalQuestions}`;
+                
+                // Update button states
+                document.getElementById('next-btn').textContent = 'Next';
+                if (currentQuestion === 1) {
+                    document.getElementById('prev-btn').disabled = true;
+                }
+            }
+        }
+        
+        function gradeQuiz() {
+            let score = 0;
+            
+            // Highlight correct/incorrect answers
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionDiv = document.getElementById(`question-${i}`);
+                const options = questionDiv.querySelectorAll('.quiz-option');
+                
+                for (let option of options) {
+                    const optionLetter = option.getAttribute('onclick').split("'")[3];
+                    
+                    if (optionLetter === correctAnswers[i]) {
+                        option.classList.add('correct');
+                    } else if (userAnswers[i] === optionLetter && userAnswers[i] !== correctAnswers[i]) {
+                        option.classList.add('incorrect');
+                    }
+                }
+                
+                if (userAnswers[i] === correctAnswers[i]) {
+                    score++;
+                }
+            }
+            
+            // Show score
+            document.getElementById('quiz-progress').innerHTML = `
+                <strong>Quiz Complete!</strong> Your score: ${score}/${totalQuestions}
+                <button class="quiz-button" style="margin-left: 1rem;" onclick="resetQuiz()">Try Again</button>
+            `;
+            
+            // Hide navigation buttons
+            document.getElementById('prev-btn').style.display = 'none';
+            document.getElementById('next-btn').style.display = 'none';
+        }
+        
+        function resetQuiz() {
+            currentQuestion = 1;
+            
+            // Reset all questions
+            for (let i = 1; i <= totalQuestions; i++) {
+                const questionDiv = document.getElementById(`question-${i}`);
+                questionDiv.classList.add('hidden');
+                const options = questionDiv.querySelectorAll('.quiz-option');
+                
+                for (let option of options) {
+                    option.classList.remove('selected', 'correct', 'incorrect');
+                }
+            }
+            
+            // Show first question
+            document.getElementById('question-1').classList.remove('hidden');
+            document.getElementById('quiz-progress').textContent = `Question 1 of ${totalQuestions}`;
+            
+            // Reset buttons
+            document.getElementById('prev-btn').style.display = 'block';
+            document.getElementById('prev-btn').disabled = true;
+            document.getElementById('next-btn').style.display = 'block';
+            document.getElementById('next-btn').textContent = 'Next';
+            
+            // Clear user answers
+            for (let key in userAnswers) {
+                delete userAnswers[key];
+            }
+        }
+        
+        // Contact form handling
+        document.getElementById('tutoring-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // In a real implementation, you would send this data to a server
+            // For this demo, we'll just show a success message
+            document.getElementById('form-success').classList.remove('hidden');
+            this.reset();
+            
+            // Hide success message after 5 seconds
+            setTimeout(() => {
+                document.getElementById('form-success').classList.add('hidden');
+            }, 5000);
+        });
+        
+        window.onload = function() {
+            createBubbles();
+        };
+    </script>
+</body>
+</html>
